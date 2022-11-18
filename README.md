@@ -3,7 +3,11 @@
 ![GitHub Org's stars](https://img.shields.io/github/stars/DanielSRS?style=social)
 
 O problema propõe desenvolver um Sistema de Sensoriamento Genérico para um processador ARMV6L. Esse sistema deve servir para a criação de um ecossistema de internet das coisas (IOT). O sistema será capaz de controlar o acionamento de um conjunto váriavel de sensores e monitorar seu funcionamento de forma automatizada.
-Para isso, o sistema conta com dois microcontroladores, uma Raspberry Pi Zero W e um NodeMCU, estes se comunicam através do protocolo UART(Universal Asynchronous Receiver Transmitter). Donde o NodeMCU é responsável por obter e retornar os valores dos sensores, quando requisitados via comunicação serial pela Raspberry
+Para isso, o sistema conta com dois microcontroladores, uma Raspberry Pi Zero W e um NodeMCU, estes se comunicam através do protocolo UART(Universal Asynchronous Receiver Transmitter). Donde o NodeMCU é responsável por obter e retornar os valores dos sensores, quando requisitados via comunicação serial pela Raspberry.
+
+## :bookmark_tabs: Diagrama do projeto
+![diagram](https://github.com/DanielSRS/ESP8266_ES/blob/main/digram_system.png)
+
 ## :hammer: Compilar e executar 
 
 #### Compilar código C
