@@ -7,6 +7,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <stdint.h>
+#include "display.h"
 
 enum sensor_type { Undefined, Analogic, Digital };
 
@@ -223,6 +224,10 @@ int main(int argc, char *argv[]) {
 
     Sensor analogico;
     Sensor digital[31];
+    /**
+     * @brief Quantidade de sensores digitais selecionados
+     * 
+     */
     int digitalQtd = 0;
     /**
      * Se não tiver argumentos, encerra o programa
@@ -236,26 +241,27 @@ int main(int argc, char *argv[]) {
      * Percorre a lista de argumentos para definir os sensores
      */
     for (int index = 1; index < argc; index++) {
+        /**
+         * @brief Se adicionado um sensor analogico
+         */
         if (strcmp(argv[index], "-analogic") == 0) {
-            printf("Há um sensor na porta analogica\n");
-            char *j = "Analogico";
-            for (int i = 0; i < strlen(j) && i < 10; i++) {
-                    //printf("%c", ptr[i]);
-                    analogico.name[i] = j[i];
-                }
-                analogico.name[10] = '\0';
-            analogico.value = 0;
-            analogico.id = 'A';
-            analogico.type = Analogic;
+          printf("Há um sensor na porta analogica\n");
+          char *j = "Analogico";
+          for (int i = 0; i < strlen(j) && i < 10; i++) {
+            //printf("%c", ptr[i]);
+            analogico.name[i] = j[i];
+          }
+          analogico.name[10] = '\0';
+          analogico.value = 0;
+          analogico.id = 'A';
+          analogico.type = Analogic;
         }
         char str[2];
-        //printf("%s\n", getSubstring(str, argv[index], 0, 2));
-        //printf("Lido: %s\n", argv[index]);
-        int isDigital = strcmp(getSubstring(str, argv[index], 0, 2), "-d");
-        //printf("is digital: %i\n", isDigital);
+
         /**
          * Se inserido uma porta digital
          */
+        int isDigital = strcmp(getSubstring(str, argv[index], 0, 2), "-d");
         if (isDigital == 0) {
             //char name[10];
             if (digitalQtd >= 31) {
@@ -266,6 +272,10 @@ int main(int argc, char *argv[]) {
             char arr[3][11] = {"", "", ""};
             separate_string_in_3(argv[index], arr[0], arr[1], arr[2]);
 
+            /**
+             * @brief Os parametros para adiconar um sensor digital não
+             * podem ser vazios. O nome e o endereço são obrigatórios
+             */
             if (strlen(arr[0]) == 0 || strlen(arr[1]) == 0 || strlen(arr[2]) == 0) {
                 printf("\nComando ilegal!!!\n\n");
                 return 0;
@@ -276,13 +286,13 @@ int main(int argc, char *argv[]) {
              */
             int address = atoi(arr[2]);
             if (address == 0) {
-                printf("Endereço invalido para o sensor!!!");
+                printf("Endereço invalido para o sensor!!!\n");
                 return 0;
             }
 
-            //printf("cmd: %s\n", arr[0]);
-            //printf("Nome: %s\n", arr[1]);
-            //printf("endereço: %s\n", arr[2]);
+            /**
+             * @brief Salvando o nome do sensor
+             */
             for (int i = 0; i < strlen(arr[1]) && i < 10; i++) {
               //printf("%c", ptr[i]);
               digital[digitalQtd].name[i] = arr[1][i];
@@ -290,8 +300,12 @@ int main(int argc, char *argv[]) {
             int end = 10;
             if (strlen(arr[1]) < 10)
               end = strlen(arr[1]);
-                    digital[digitalQtd].name[end] = '\0';
-            //digital[0].name = arr[1];
+            digital[digitalQtd].name[end] = '\0';
+            
+            /**
+             * @brief Definido as outras propriedades do sensor
+             * 
+             */
             digital[digitalQtd].value = 0;
             digital[digitalQtd].id = atoi(arr[2]);
             digital[digitalQtd].type = Digital;
@@ -312,6 +326,53 @@ int main(int argc, char *argv[]) {
 
                 //printf("nome %s", arr[1]);
             digitalQtd++;
+        }
+
+        /**
+         * @brief Se listando os sensores disponíveis
+         */
+        if (strcmp(argv[index], "-l") == 0) {
+          char command[2] = "OO";  // Envio de comandos
+          unsigned char read[100]; // Leitura de respostas
+          printf("\nPegando o numero de portas digitais disponíveis: \n");
+          uart_send_string("!!");
+          sleep(1);
+          serialReadBytes(read);
+          if (read[0] != '!' || strlen(read) < 2) {
+            printf("Erro na leitura do numero de portas disponíveis\n");
+            return 0;
+          }
+          /** Numero de portas digitais disponíveis */
+          int max_digital = read[1] - '0';
+          printf("Portas digitais disponíveis:\n\n");
+          printf("%10s: %8s\n", "Nome", "Endereço\n");
+          for (int p = 0; p < max_digital; p++) {
+            command[0] = 'S';           // Obetem o endereço do sensor
+            command[1] = (char) p + 1;  // na posição n°
+            uart_send_string( (char*) command);
+            sleep(1);
+            serialReadBytes(read);
+
+            /** Se problema com a node, encerra a leitura*/
+            if (read[0] == 31) {
+              printf("NodeMCU com problema!!!\n\n");
+              clear_display();
+              write_string("NodeMCU com erro");
+              return 0;
+            }
+
+            unsigned char sensor_address = read[1]; //    endereço do sensor
+
+            /** Obtendo o nome */
+            command[0] = 'N';
+            command[1] = (char) sensor_address;
+            uart_send_string((char*) command);
+            sleep(1);
+            serialReadBytes(read);
+
+            // exibe a informação
+            printf("%10s: %2i\n", read, sensor_address);
+          }
         }
 
     }
@@ -336,20 +397,24 @@ int main(int argc, char *argv[]) {
         print_sensor_to_console(analogico.name, analogico.value);
       }
 
-      for (int i = 0; i < digitalQtd; i++) {
-        /**
+      /**
        * Lê o sensor analogico
        */
-      if (analogico.type == Analogic) { // Se existe um sensor analogico
-        //printf("\nPegando o valor analogico: \n");
+      for (int i = 0; i < digitalQtd; i++) {
         cmd[0] = 'D';
-        cmd[1] = (char) digital[i].id;  //d2 - 4
+        cmd[1] = (char) digital[i].id;
         uart_send_string((char*) cmd);
         sleep(3);
         serialReadBytes(ler); // lê resposta
-        digital[i].value = atoi(ler);
-        print_sensor_to_console(digital[i].name, digital[i].value);
-      }
+
+        if (ler[0] == 31) {
+          printf("NodeMCU com problema. Endereço do sensor é inválido!\n");
+          clear_display();
+          write_string("NodeMCU com erro");
+        } else {
+          digital[i].value = atoi(ler);
+          print_sensor_to_console(digital[i].name, digital[i].value);
+        }
       }
     }
 }
