@@ -8,7 +8,7 @@ Para isso, o sistema conta com dois microcontroladores, uma Raspberry Pi Zero W 
 ## :bookmark_tabs: Diagrama do projeto
 ![diagram](https://github.com/DanielSRS/ESP8266_ES/blob/main/digram_system.png)
 
-### Comunicação entre os dispositivos
+## Comunicação entre os dispositivos
 A Raspberry é responsável por iniciar a comunicação via serial, enviando comandos para o NodeMCU, este irá enviar os dados de resposta de acordo com o comando de requisição. Os comandos de requisição e resposta estão na imagem abaixo.
 
 ![Tabelas de comandos](https://github.com/DanielSRS/ESP8266_ES/blob/main/Screenshot%20from%202022-11-18%2009-49-08.png)
