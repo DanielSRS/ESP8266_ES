@@ -222,6 +222,11 @@ int main(int argc, char *argv[]) {
     clear_display(); // Limpa o conteudo do diaplay
     write_string("Iniciando");
 
+    uart_configure(); // configura a uart
+    int input = 0;
+    char cmd[2] = "OO";  // Envio de comandos
+    unsigned char ler[100]; // Leitura de respostas
+
     Sensor analogico;
     Sensor digital[31];
     /**
@@ -336,7 +341,7 @@ int main(int argc, char *argv[]) {
           unsigned char read[100]; // Leitura de respostas
           printf("\nPegando o numero de portas digitais disponíveis: \n");
           uart_send_string("!!");
-          sleep(1);
+          sleep(3);
           serialReadBytes(read);
           if (read[0] != '!' || strlen(read) < 2) {
             printf("Erro na leitura do numero de portas disponíveis\n");
@@ -344,13 +349,14 @@ int main(int argc, char *argv[]) {
           }
           /** Numero de portas digitais disponíveis */
           int max_digital = read[1] - '0';
-          printf("Portas digitais disponíveis:\n\n");
+          printf("Portas digitais disponíveis: %i\n\n", max_digital);
           printf("%10s: %8s\n", "Nome", "Endereço\n");
-          for (int p = 0; p < max_digital; p++) {
+          for (int p = 1; p <= max_digital; p++) {
             command[0] = 'S';           // Obetem o endereço do sensor
-            command[1] = (char) p + 1;  // na posição n°
+            command[1] = (char) p;  // na posição n°
             uart_send_string( (char*) command);
-            sleep(1);
+            printf("Obter endereço comando: %s\n", (char*) command);
+            sleep(3);
             serialReadBytes(read);
 
             /** Se problema com a node, encerra a leitura*/
@@ -367,20 +373,18 @@ int main(int argc, char *argv[]) {
             command[0] = 'N';
             command[1] = (char) sensor_address;
             uart_send_string((char*) command);
-            sleep(1);
+            sleep(3);
             serialReadBytes(read);
 
+            command[0] = read[0];
+            command[1] = read[1];
+
             // exibe a informação
-            printf("%10s: %2i\n", read, sensor_address);
+            printf("%10s: %2i\n", command, sensor_address);
           }
         }
 
     }
-
-    uart_configure(); // configura a uart
-    int input = 0;
-    char cmd[2] = "OO";  // Envio de comandos
-    unsigned char ler[100]; // Leitura de respostas
 
     printf("Iniciando leitura\n\n");
 
