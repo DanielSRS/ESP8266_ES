@@ -1,6 +1,5 @@
-#include <unistd.h>
-//dealy funciont
-#include <sys/time.h>
+#include <unistd.h>     // NULL, read, STDIN_FILENO
+#include <sys/time.h>   // struct timeval, gettimeofday
 
 /**
  * @brief Delay em milisegundos antes de continuar a execução

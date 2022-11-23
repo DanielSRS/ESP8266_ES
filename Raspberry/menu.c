@@ -1,9 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <termios.h>
-#include "terminal.h"
-#include "menu.h"
+#include <stdio.h> // printf
+#include <termios.h> // struct termios, 
+#include "terminal.h" // enableRawMode, disableRawMode
+#include "menu.h" // menu_item
+#include "utils.h" // isSelected, read_input_char, decrement_in_range, increment_in_range
 
 /**
  * @brief Printa na tela um entrada (item) de menu

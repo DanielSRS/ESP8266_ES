@@ -1,5 +1,5 @@
-#include <termios.h>
-#include <unistd.h>
+#include <termios.h> // struct termios, tcsetattr, TCSAFLUSH, tcgetattr, ECHO, ICANON, ISIG, IXON, TCSAFLUSH
+#include <unistd.h> // STDIN_FILENO, 
 
 /**
  * Desabilita o modo raw
