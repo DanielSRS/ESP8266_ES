@@ -6,7 +6,7 @@ O problema propõe desenvolver um Sistema de Sensoriamento Genérico para um pro
 Para isso, o sistema conta com dois microcontroladores, uma Raspberry Pi Zero W e um NodeMCU, estes se comunicam através do protocolo UART(Universal Asynchronous Receiver Transmitter). Donde o NodeMCU é responsável por obter e retornar os valores dos sensores, quando requisitados via comunicação serial pela Raspberry.
 
 ## :bookmark_tabs: Diagrama do projeto
-![diagram](https://github.com/DanielSRS/ESP8266_ES/blob/main/digram_system.png)
+![diagram](/assets/digram_system.png)
 
 
 ## Comunicação UART
@@ -20,7 +20,7 @@ A estrutura de frames da UART consiste em um bit inicial, um bit final, um bit d
 ## Comunicação entre os dispositivos
 A Raspberry é responsável por iniciar a comunicação via serial, enviando comandos para o NodeMCU, este irá enviar os dados de resposta de acordo com o comando de requisição. Os comandos de requisição e resposta estão na imagem abaixo.
 
-![Tabelas de comandos](https://github.com/DanielSRS/ESP8266_ES/blob/main/Screenshot%20from%202022-11-18%2009-49-08.png)
+![Tabelas de comandos](/assets/Screenshot%20from%202022-11-18%2009-49-08.png)
 
 Os dados de resposta enviados pelo NodeMCU serão exibidos em um display LCD 16x2.
 
