@@ -1,132 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <termios.h>
-#include <time.h>
-#include <string.h>
-#include <sys/ioctl.h>
-#include <stdint.h>
-#include "display.h"
+#include <stdio.h>            // printf, 
+#include <stdlib.h>           // atoi
+#include <unistd.h>           // sleep
+#include <string.h>           // strncpy, strtok, strlen, strcmp, 
+#include "display.h"          // write_char, init_display, clear_display
+#include "sensor.h"           // Sensor, print_sensor_to_console, 
+#include "serial.h"           // uart_configure, uart_send_string, serialReadBytes
+#include "comunication.h"     // command_to_int
 
-enum sensor_type { Undefined, Analogic, Digital };
-
-/**
- * @brief Informações sobre um sensor
- *
- */
-struct sensor_data {
-    char name[17];
-    //char default_name[2];
-    //char description[255];
-    int value;
-    int id;
-    enum sensor_type type;
-};
-
-typedef struct sensor_data Sensor;
-
-/**
- * @brief Tabela de comandos
- *
- */
-#define GET_NODE_MCU_STATUS 0x03
-#define GET_ANALOG_INPUT_VALUE 0x04
-#define GET_DIGITAL_INPUT_VALUE 0x05
-#define NODE_MCU_ON_LED_BUILTIN 0x06
-#define NODE_MCU_OFF_LED_BUILTIN 0x09
-
-// Address Sensor
-#define ADDRESS_DIGITAL_SENSOR_1 60
-#define ADDRESS_DIGITAL_SENSOR_2 104
-
-#define TRUE 1
-
-int uart0_filestream = -1;
-
-/**
- * @brief Realiza a configuração da uart
- *
- */
-void uart_configure()
-{
-  // Abre o arquivo da uart
-  uart0_filestream = open("/dev/serial0", O_RDWR | O_NOCTTY | O_NDELAY);
-
-    if (uart0_filestream == -1)
-    {
-        printf("Error - Unable to open UART.  Ensure it is not in use by another application\n");
-    }
-
-    struct termios options;
-
-    // opções de configuração da
-    tcgetattr(uart0_filestream, &options);
-    options.c_cflag = B115200 | CS8 | CLOCAL | CREAD;
-    options.c_iflag = IGNPAR;
-    options.c_oflag = 0;
-    options.c_lflag = 0;
-
-    tcflush(uart0_filestream, TCIFLUSH);
-    tcsetattr(uart0_filestream, TCSANOW, &options);
-}
-
-/**
- * @brief Faz a leitura do buffer com as informações lidas pela uart
- *
- * @param l Variável de destino da string
- */
-void serialReadBytes(unsigned char l[100])
-{
-    static unsigned char rx_buffer[100];
-    char response_command = -1;
-
-    if (uart0_filestream != -1)
-    {
-
-        int rx_length = read(uart0_filestream, (void *)rx_buffer, 100); // Filestream, buffer to store in, number of bytes to read (max)
-
-        if (rx_length > 0)
-        {
-            rx_buffer[rx_length] = '\0';
-            //printf("%s", rx_buffer);
-            for (int i = 0; i < 100; i++) {
-                l[i] = rx_buffer[i];
-            }
-        }
-    }
-}
-
-/**
- * @brief Envia string de forma seria pela uart
- *
- * @param tx_string String a ser enviada
- * @return int Valor de sucesso do envio. retorna -1 se erro
- */
-int uart_send_string(char* tx_string) {
-  if (uart0_filestream != -1)
-          return write(uart0_filestream, tx_string, strlen(tx_string));           //Filestream, bytes to write, number of bytes to write
-  return -1;
-}
-
-/**
- * @brief Dado os dois bytes da resposta de um comando, retorna um numero inteiro.
- * Como todos os comandos (enviados, ou recebidos) tem dois bytes, não é possível
- * ler valores maiores que 255 (base 10).
- *
- * Como o valor de leitura do sensor analógico pode retornar valores até 1024, a
- * node MCU quebra esse valor em doys bytes no comando de resposta, e esse valor
- * é remontado por essa função;
- *
- * @param a primeiro byte de resposta
- * @param b segundo byte de resposta
- * @return int (um numero inteiro com tamanho de dois bytes)
- */
-int command_to_int(char a, char b) {
-    int val = a;
-    val = val << 8;
-    return val | b;
-}
 
 /**
  * @brief Get the Substring object
@@ -137,8 +17,7 @@ int command_to_int(char a, char b) {
  * @param end Ending position of the substring
  * @return char* Substring
  */
-char *getSubstring(char *dst, const char *src, size_t start, size_t end)
-{
+char *getSubstring(char *dst, const char *src, size_t start, size_t end) {
     return strncpy(dst, src + start, end);
 }
 
@@ -198,14 +77,7 @@ void write_string(char* s) {
   }
 }
 
-void print_sensor_to_console(char *sensor_name, int sensor_value) {
-  char str[16];
-  sprintf(str, "%9s: %4i", sensor_name, sensor_value);
-  clear_display();
-  //str[17] = '\0';
-  write_string((char*) str);
-  printf("%9s: %4i\n", sensor_name, sensor_value);
-}
+
 
 /**
  * @brief Realiza a leitura de sensores de forma automatizada atraves de comunicação serial
