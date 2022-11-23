@@ -222,11 +222,6 @@ int main(int argc, char *argv[]) {
     clear_display(); // Limpa o conteudo do diaplay
     write_string("Iniciando");
 
-    uart_configure(); // configura a uart
-    int input = 0;
-    char cmd[2] = "OO";  // Envio de comandos
-    unsigned char ler[100]; // Leitura de respostas
-
     Sensor analogico;
     Sensor digital[31];
     /**
@@ -250,23 +245,22 @@ int main(int argc, char *argv[]) {
          * @brief Se adicionado um sensor analogico
          */
         if (strcmp(argv[index], "-analogic") == 0) {
-          printf("Há um sensor na porta analogica\n");
-          char *j = "Analogico";
-          for (int i = 0; i < strlen(j) && i < 10; i++) {
-            //printf("%c", ptr[i]);
-            analogico.name[i] = j[i];
-          }
-          analogico.name[10] = '\0';
-          analogico.value = 0;
-          analogico.id = 'A';
-          analogico.type = Analogic;
+            printf("Há um sensor na porta analogica\n");
+            char *j = "Analogico";
+            for (int i = 0; i < strlen(j) && i < 10; i++) {
+                    //printf("%c", ptr[i]);
+                    analogico.name[i] = j[i];
+                }
+                analogico.name[10] = '\0';
+            analogico.value = 0;
+            analogico.id = 'A';
+            analogico.type = Analogic;
         }
         char str[2];
-
+        int isDigital = strcmp(getSubstring(str, argv[index], 0, 2), "-d");
         /**
          * Se inserido uma porta digital
          */
-        int isDigital = strcmp(getSubstring(str, argv[index], 0, 2), "-d");
         if (isDigital == 0) {
             //char name[10];
             if (digitalQtd >= 31) {
@@ -305,8 +299,8 @@ int main(int argc, char *argv[]) {
             int end = 10;
             if (strlen(arr[1]) < 10)
               end = strlen(arr[1]);
-            digital[digitalQtd].name[end] = '\0';
-            
+                    digital[digitalQtd].name[end] = '\0';
+            //digital[0].name = arr[1];
             /**
              * @brief Definido as outras propriedades do sensor
              * 
@@ -336,7 +330,7 @@ int main(int argc, char *argv[]) {
         /**
          * @brief Se listando os sensores disponíveis
          */
-        if (strcmp(argv[index], "-l") == 0) {
+        /*if (strcmp(argv[index], "-l") == 0) {
           char command[2] = "OO";  // Envio de comandos
           unsigned char read[100]; // Leitura de respostas
           printf("\nPegando o numero de portas digitais disponíveis: \n");
@@ -348,7 +342,7 @@ int main(int argc, char *argv[]) {
             return 0;
           }
           /** Numero de portas digitais disponíveis */
-          int max_digital = read[1] - '0';
+          /*int max_digital = read[1] - '0';
           printf("Portas digitais disponíveis: %i\n\n", max_digital);
           printf("%10s: %8s\n", "Nome", "Endereço\n");
           for (int p = 1; p <= max_digital; p++) {
@@ -360,7 +354,7 @@ int main(int argc, char *argv[]) {
             serialReadBytes(read);
 
             /** Se problema com a node, encerra a leitura*/
-            if (read[0] == 31) {
+            /*if (read[0] == 31) {
               printf("NodeMCU com problema!!!\n\n");
               clear_display();
               write_string("NodeMCU com erro");
@@ -370,7 +364,7 @@ int main(int argc, char *argv[]) {
             unsigned char sensor_address = read[1]; //    endereço do sensor
 
             /** Obtendo o nome */
-            command[0] = 'N';
+            /*command[0] = 'N';
             command[1] = (char) sensor_address;
             uart_send_string((char*) command);
             sleep(3);
@@ -382,9 +376,14 @@ int main(int argc, char *argv[]) {
             // exibe a informação
             printf("%10s: %2i\n", command, sensor_address);
           }
-        }
+        }*/
 
     }
+
+    uart_configure(); // configura a uart
+    int input = 0;
+    char cmd[2] = "OO";  // Envio de comandos
+    unsigned char ler[100]; // Leitura de respostas
 
     printf("Iniciando leitura\n\n");
 
