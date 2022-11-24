@@ -1,2 +1,5 @@
 # Ignore object files
 *.o
+
+Raspberry/*.o
+Rasp

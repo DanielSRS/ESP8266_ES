@@ -6,14 +6,26 @@ list: all
 
 all: Rasp
 
-Rasp: Rasp.o display.o
-		gcc main.o display.o -o Rasp
+Rasp: Rasp.o display.o serial.o comunication.o sensor.o lcd.o
+		gcc main.o display.o serial.o comunication.o sensor.o lcd.o -o Rasp
 
 Rasp.o: main.c
 		gcc -c main.c -o main.o
 
-display.o: display.s
-		gcc -c display.s -o display.o
+mock_display: display.mock.c
+		gcc -c display.mock.c -o lcd.o
+
+serial.o: serial.c
+		gcc -c serial.c -o serial.o
+
+comunication.o: comunication.c
+		gcc -c comunication.c -o comunication.o
+
+sensor.o: sensor.c
+		gcc -c sensor.c -o sensor.o
+
+display.o: display.c
+		gcc -c display.c -o display.o
 
 clean:
 		rm -rf *.o *~ Rasp
