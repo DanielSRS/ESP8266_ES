@@ -1,11 +1,11 @@
 #include <stdio.h>            // printf, 
 #include <stdlib.h>           // atoi
-#include <unistd.h>           // sleep
 #include <string.h>           // strncpy, strtok, strlen, strcmp, 
 #include "display.h"          // write_char, init_display, clear_display
 #include "sensor.h"           // Sensor, print_sensor_to_console, 
 #include "serial.h"           // uart_configure, uart_send_string, serialReadBytes
 #include "comunication.h"     // command_to_int
+#include "utils.h"            // await
 
 
 /**
@@ -253,7 +253,7 @@ int main(int argc, char *argv[]) {
       if (analogico.type == Analogic) { // Se existe um sensor analogico
         printf("\nPegando o valor analogico: \n");
         uart_send_string("AA");
-        sleep(3);
+        await(3000);
         serialReadBytes(ler); // lê resposta
         analogico.value = command_to_int(ler[0], ler[1]);
         print_sensor_to_console(analogico.name, analogico.value);
@@ -266,7 +266,7 @@ int main(int argc, char *argv[]) {
         cmd[0] = 'D';
         cmd[1] = (char) digital[i].id;
         uart_send_string((char*) cmd);
-        sleep(3);
+        await(3000);
         serialReadBytes(ler); // lê resposta
 
         if (ler[0] == 31) {

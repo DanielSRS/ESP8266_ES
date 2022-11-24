@@ -1,13 +1,16 @@
 run: all
 		sudo ./Rasp -analogic -d."D0".16 -d."D1".5
 
+test: all
+		./Rasp -analogic -d."D0".16 -d."D1".5
+
 list: all
 		sudo ./Rasp -l
 
 all: Rasp
 
-Rasp: Rasp.o display.o serial.o comunication.o sensor.o lcd.o
-		gcc main.o display.o serial.o comunication.o sensor.o lcd.o -o Rasp
+Rasp: Rasp.o display.o serial.o comunication.o sensor.o lcd.o utils.o
+		gcc main.o display.o serial.o comunication.o sensor.o lcd.o utils.o -o Rasp
 
 Rasp.o: main.c
 		gcc -c main.c -o main.o
@@ -26,6 +29,9 @@ sensor.o: sensor.c
 
 display.o: display.c
 		gcc -c display.c -o display.o
+
+utils.o: utils.c
+		gcc -c utils.c -o utils.o
 
 clean:
 		rm -rf *.o *~ Rasp
