@@ -278,5 +278,10 @@ int main(int argc, char *argv[]) {
           print_sensor_to_console(digital[i].name, digital[i].value);
         }
       }
+
+      if (analogico.type != Analogic && digitalQtd < 1) {
+        printf("\nNão foram adicionados sensores. Ecerrando...\n");
+        return 0;
+      }
     }
 }
