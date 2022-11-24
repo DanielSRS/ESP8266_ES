@@ -20,4 +20,7 @@ const struct IO digital[] = {{ .name = (char*) "D0", .id = 16},
                              { .name = (char*) "D7", .id = 13},
                              { .name = (char*) "D8", .id = 15}};
 
+struct IO find_digital_IO_by_id(int id);
+struct IO find_digital_IO_by_index(int in);
+
 #endif

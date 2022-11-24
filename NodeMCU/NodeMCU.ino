@@ -1,64 +1,13 @@
-#include <ESP8266WiFi.h>
-#include <ESP8266mDNS.h>
-#include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include "ota_setup.h"
 #include "comunication.h"
 #include "io.h"
 
+void setup_io_pins(void);
+
 void setup() {
-  ota_setup();
-  //Definindo pinos como entrada
-  pinMode(16, INPUT);
-  pinMode(5, INPUT);
-  pinMode(4, INPUT);
-  pinMode(0, INPUT);
-  pinMode(2, INPUT);
-  pinMode(14, INPUT);
-  pinMode(12, INPUT);
-  pinMode(13, INPUT);
-  pinMode(15, INPUT);
-
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, LOW);
-}
-
-int counter = 0;
-
-/**
- * @brief Obtem as informações de uma porta digita
- * dado o seu id
- * 
- * @param id endereço da porta
- * @return struct IO Informações da porta como nome.
- */
-struct IO find_digital_IO_by_id(int id) {
-  for (int index = 0; index < 9; index++) {
-    struct IO io = digital[index];
-    if (io.id == id) {
-      return io;
-    }
-  }
-  return { .name = (char*) "ER", .id = (uint8_t) -1};
-}
-
-/**
- * @brief Obtem as informações de uma porta digita
- * dado o seu index, onde index é a ordem da lista
- * digital[]
- * 
- * @param id index da porta
- * @return struct IO Informações da porta como nome.
- * @see digital[]
- */
-struct IO find_digital_IO_by_index(int in) {
-  for (int index = in; index < 9; index++) {
-    struct IO io = digital[index];
-    if (in == index) {
-      return io;
-    }
-  }
-  return { .name = (char*) "ER", .id = (uint8_t) -1};
+  ota_setup();        // Configuração de atualização via OTA
+  setup_io_pins();    // Define pinos da GPIO como entrada e acende o led
 }
 
 void loop() {
@@ -153,3 +102,22 @@ void loop() {
 
   handle_ota();
 }
+
+/**
+ * Define os pinos da GPIO (onde podem ser conectados sensores digitais)
+ * como modo de entrada e liga o led
+ */
+void setup_io_pins() {
+  pinMode(16, INPUT);
+  pinMode(5, INPUT);
+  pinMode(4, INPUT);
+  pinMode(0, INPUT);
+  pinMode(2, INPUT);
+  pinMode(14, INPUT);
+  pinMode(12, INPUT);
+  pinMode(13, INPUT);
+  pinMode(15, INPUT);
+
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
+ }
