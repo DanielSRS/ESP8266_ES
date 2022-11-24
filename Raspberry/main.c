@@ -6,6 +6,7 @@
 #include "serial.h"           // uart_configure, uart_send_string, serialReadBytes
 #include "comunication.h"     // command_to_int
 #include "utils.h"            // await
+#include "menu.h"             // menu  
 
 
 int get_number_of_digital_ios();
@@ -95,6 +96,90 @@ int main(int argc, char *argv[]) {
           print_io_name_and_id(max_digital);
         }
 
+        /** Se opção manual */
+        if (strcmp(argv[index], "-m") == 0) {
+          // exibe menu
+          char notice[80] = " ";
+          while (1)
+          {
+            menu_item entries[] = {
+              {
+                .item_name = "Ligar o led"
+              },
+              {
+                .item_name = "Desligar o led" 
+              },
+              {
+                .item_name = "Ler sensor analogico" 
+              },
+              {
+                .item_name = "Ler sensor digital" 
+              },
+              {
+                .item_name = "Sair" 
+              },
+            };
+            int response = menu(
+              entries,
+              Lenght(entries),
+              "Use as setas para navegar entre as opções do menu. Pressione enter para selecionar a opção",
+              "",
+              notice
+            );
+
+            switch (response)
+            {
+              case 0:
+                send_command(NODE_MCU_ON_LED_BUILTIN, 'L');
+                sprintf(notice, "LED ligado");                                                   // Limpa mensagem
+                break;
+
+              case 1:
+                send_command(NODE_MCU_OFF_LED_BUILTIN, 'L');
+                sprintf(notice, "LED desligado");                                                   // Limpa mensagem
+                break;
+
+              case 2:
+                send_command(GET_ANALOG_INPUT_VALUE, GET_ANALOG_INPUT_VALUE);
+                printf("Lendo sensor analogico...\n");
+                await(3000);
+                serialReadBytes(ler); // lê resposta
+                print_sensor_to_console("Analogico", command_to_int(ler[0], ler[1]));
+                sprintf(notice, "%9s: %4i", "Analogico", command_to_int(ler[0], ler[1]));
+                break;
+              
+              case 3:
+                printf("Digite o endereço do sensor: ");
+                scanf("%s", ler);
+                int sensor_address = atoi(ler);
+                printf("Lendo sensor digital...\n");
+                send_command(GET_DIGITAL_INPUT_VALUE, (char) sensor_address);           // Solicita leitura do sensor
+                await(3000);                                                            // Aguarda comando ser processado
+                serialReadBytes(ler);                                                   // lê resposta
+
+
+                if (ler[0] == 31) {                                                     // Se houve erro na leitura
+                  printf("NodeMCU com problema. Endereço do sensor é inválido!\n");
+                  clear_display();
+                  write_string("NodeMCU com erro");
+                } else {                                                                // Se lido com sucesso
+                  print_sensor_to_console("Sensor", atoi(ler));                         // Exibe informações lidas
+                  sprintf(notice, "Sensor: %i: %4i", sensor_address, atoi(ler));
+                }
+                break;
+
+              case 4:
+                exit(0);
+                break;
+              
+              default:
+                sprintf(notice, " ");                                                   // Limpa mensagem
+                break;
+            } 
+          }
+          
+        }
+
     }
 
     printf("Iniciando leitura\n\n");
@@ -112,7 +197,7 @@ int main(int argc, char *argv[]) {
       }
 
       /**
-       * Lê o sensor analogico
+       * Lê o sensor digital
        */
       for (int i = 0; i < digitalQtd; i++) {
         send_command(GET_DIGITAL_INPUT_VALUE, (char) digital[i].id);            // Solicita leitura do sensor
