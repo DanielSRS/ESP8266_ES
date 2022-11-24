@@ -70,3 +70,17 @@ int uart_send_string(char* tx_string) {
         return write(uart0_filestream, tx_string, strlen(tx_string));           //Filestream, bytes to write, number of bytes to write
     return -1;
 }
+
+/**
+ * @brief Envia um comando via uart
+ * 
+ * @param command 
+ * @param value 
+ */
+void send_command(unsigned char command, unsigned char value) {
+    char cmd[2] = "OO";
+    cmd[0] = command;
+    cmd[1] = value;
+    uart_send_string((char*) cmd);
+    printf("\nSend command: %s - %i %i\n", (char*) cmd, command, value);
+}

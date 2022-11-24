@@ -78,19 +78,15 @@ int main(int argc, char *argv[]) {
     // Configuração inicial
     init_display(); // configura o display
     init_display();
+    init_display();
     clear_display(); // Limpa o conteudo do diaplay
     write_string("Iniciando");
 
     Sensor analogico;
     Sensor digital[31];
-    /**
-     * @brief Quantidade de sensores digitais selecionados
-     * 
-     */
-    int digitalQtd = 0;
-    /**
-     * Se não tiver argumentos, encerra o programa
-     */
+
+    int digitalQtd = 0; // Quantidade de sensores digitais selecionados
+    // Se não tiver argumentos, encerra o programa
     if (argc < 2) {
         printf("Uso inválido. Não há argumentos\n");
         return 0;
@@ -251,8 +247,7 @@ int main(int argc, char *argv[]) {
        * Lê o sensor analogico
        */
       if (analogico.type == Analogic) { // Se existe um sensor analogico
-        printf("\nPegando o valor analogico: \n");
-        uart_send_string("AA");
+        send_command(GET_ANALOG_INPUT_VALUE, GET_ANALOG_INPUT_VALUE);
         await(3000);
         serialReadBytes(ler); // lê resposta
         analogico.value = command_to_int(ler[0], ler[1]);
@@ -263,9 +258,7 @@ int main(int argc, char *argv[]) {
        * Lê o sensor analogico
        */
       for (int i = 0; i < digitalQtd; i++) {
-        cmd[0] = 'D';
-        cmd[1] = (char) digital[i].id;
-        uart_send_string((char*) cmd);
+        send_command(GET_DIGITAL_INPUT_VALUE, (char) digital[i].id);
         await(3000);
         serialReadBytes(ler); // lê resposta
 
