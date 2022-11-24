@@ -38,8 +38,8 @@ int main(int argc, char *argv[]) {
     int digitalQtd = 0; // Quantidade de sensores digitais selecionados
     // Se não tiver argumentos, encerra o programa
     if (argc < 2) {
-        printf("Uso inválido. Não há argumentos\n");
-        return 0;
+      printf("Uso inválido. Não há argumentos\n");
+      return 0;
     }
 
     /**
@@ -115,28 +115,33 @@ int main(int argc, char *argv[]) {
        * Lê o sensor analogico
        */
       for (int i = 0; i < digitalQtd; i++) {
-        send_command(GET_DIGITAL_INPUT_VALUE, (char) digital[i].id);
-        await(3000);
-        serialReadBytes(ler); // lê resposta
+        send_command(GET_DIGITAL_INPUT_VALUE, (char) digital[i].id);            // Solicita leitura do sensor
+        await(3000);                                                            // Aguarda comando ser processado
+        serialReadBytes(ler);                                                   // lê resposta
 
-        if (ler[0] == 31) {
+        if (ler[0] == 31) {                                                     // Se houve erro na leitura
           printf("NodeMCU com problema. Endereço do sensor é inválido!\n");
           clear_display();
           write_string("NodeMCU com erro");
-        } else {
-          digital[i].value = atoi(ler);
-          print_sensor_to_console(digital[i].name, digital[i].value);
+        } else {                                                                // Se lido com sucesso
+          digital[i].value = atoi(ler);                                         // salva o valor lido
+          print_sensor_to_console(digital[i].name, digital[i].value);           // Exibe informações lidas
         }
       }
 
-      if (analogico.type != Analogic && digitalQtd < 1) {
+      if (analogico.type != Analogic && digitalQtd < 1) {                       // Se não houver nenhum sensor
         printf("\nNão foram adicionados sensores. Ecerrando...\n");
-        return 0;
+        return 0;                                                               // Encerra o programa
       }
     }
 }
 
-
+/**
+ * @brief Obtem o numero de entradas digitais disponíveis para
+ * leitura
+ * 
+ * @return int o numero de entradas digitais ou -1 em caso de erro
+ */
 int get_number_of_digital_ios() {
   unsigned char read[100];
   send_command('!', '!');
@@ -149,39 +154,46 @@ int get_number_of_digital_ios() {
   return read[1] - '0';
 }
 
+/**
+ * @brief Exibe no terminal o nome e o endereço de cada uma das 
+ * entradas digitais disponíveis.
+ * 
+ * @param max_digital Numero maximo de entradas digitais. (valor
+ * retornado pela função get_number_of_digital_ios)
+ * @see get_number_of_digital_ios
+ */
 void print_io_name_and_id(int max_digital) {
   unsigned char read[100];
   char command[100];
   printf("Portas digitais disponíveis: %i\n\n", max_digital);
   printf("%10s: %8s\n", "Nome", "Endereço\n");
   for (int p = 1; p <= max_digital; p++) {
-    send_command(GET_SENSOR_ADDRESS, p);
-    await(3000);
-    serialReadBytes(read);
+    send_command(GET_SENSOR_ADDRESS, p);                                  // Solicita o endereço do sensor
+    await(3000);                                                          // Aguarda processamento da solicitação
+    serialReadBytes(read);                                                // faz a leitura
 
     /** Se problema com a node, encerra a leitura*/
-    if (read[0] == 31) {
+    if (read[0] == 31) {                                                  // se houver erro
       printf("NodeMCU com problema!!!\n\n");
       clear_display();
       write_string("NodeMCU com erro");
-      exit(0); // termina o programa
+      exit(0);                                                            // termina o programa
     }
 
-    unsigned char sensor_address = read[1]; //    endereço do sensor
+    unsigned char sensor_address = read[1];                               // endereço do sensor
 
     /** Obtendo o nome */
-    send_command(GET_SENSOR_NAME, sensor_address);
-    await(3000);
-    serialReadBytes(read);
+    send_command(GET_SENSOR_NAME, sensor_address);                        // Solicita o nome do sensor
+    await(3000);                                                          // Aguarda processamento da solicitação
+    serialReadBytes(read);                                                // Lê a resposta
 
     command[0] = read[0];
     command[1] = read[1];
 
     // exibe a informação
-    printf("%10s: %2i\n", command, sensor_address);
+    printf("%10s: %2i\n", command, sensor_address);                       // Exibe os dados lidos
   }
 }
-
 
 /**
  * @brief Get the Substring object
@@ -240,6 +252,14 @@ void separate_string_in_3(char *str, char a[10], char b[10], char c[10]) {
   }
 }
 
+/**
+ * @brief Adiciona um sensor digital a lista de sensores salvos
+ * 
+ * @param sensor_info String (argumento recebido pelo programa) contendo
+ * as informações do sensor digital
+ * @param digital Ponteiro para uma estrutura onde as informações serão salvas
+ * @return int Retorna 1 se sucesso, ou -1 se houver algum erro.
+ */
 int add_digital_sensor(char *sensor_info, Sensor *digital) {
   printf("Há um sensor na porta digital\n");
   char arr[3][11] = {"", "", ""};
@@ -273,9 +293,10 @@ int add_digital_sensor(char *sensor_info, Sensor *digital) {
     digital->name[i] = arr[1][i];
   }
   int end = 10;
-  if (strlen(arr[1]) < 10)
+  if (strlen(arr[1]) < 10) {
     end = strlen(arr[1]);
-          digital->name[end] = '\0';
+  }
+  digital->name[end] = '\0';
   //digital[0].name = arr[1];
   /**
    * @brief Definido as outras propriedades do sensor
@@ -294,11 +315,11 @@ int add_digital_sensor(char *sensor_info, Sensor *digital) {
    * Limpando substrings
    */
   for (int i = 0; i < 11; i++) {
-          arr[0][i] = '\0';
-          arr[1][i] = '\0';
-          arr[2][i] = '\0';
-      }
+    arr[0][i] = '\0';
+    arr[1][i] = '\0';
+    arr[2][i] = '\0';
+  }
 
-      //printf("nome %s", arr[1]);
+  //printf("nome %s", arr[1]);
   return 1;
 }
