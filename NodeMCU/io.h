@@ -22,5 +22,10 @@ const struct IO digital[] = {{ .name = (char*) "D0", .id = 16},
 
 struct IO find_digital_IO_by_id(int id);
 struct IO find_digital_IO_by_index(int in);
+char* get_digital_io_name(unsigned char io_id);
+int get_digital_io_address(int index);
+String read_analog_input(void);
+int read_digital_input(unsigned char io_address);
+void setup_io_pins();
 
 #endif
