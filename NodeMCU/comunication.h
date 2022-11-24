@@ -26,4 +26,25 @@
 
 #define NELEMS(x)  (sizeof(x) / sizeof((x)[0]))
 
+/**
+ * @brief Envia resposta atravésda UART
+ * 
+ * @param code codigo de resposta
+ * @param value valor da resposta
+ */
+void send_response(unsigned char code, unsigned char value) {
+  Serial.write(code);
+  Serial.write(value);
+}
+
+/**
+ * @brief Envia resposta de erro
+ * 
+ * @param specific_error_code codigo de erro específico ao 
+ * procedimento que gerou o erro
+ */
+void send_error(unsigned char specific_error_code) {
+  send_response(NODE_MCU_STATUS_ERROR, specific_error_code);
+}
+
 #endif

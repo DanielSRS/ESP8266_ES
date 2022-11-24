@@ -3,10 +3,6 @@
 #include "comunication.h"
 #include "io.h"
 
-void setup_io_pins(void);
-String read_analog_input(void);
-int get_digital_io_address(int index);
-
 void setup() {
   ota_setup();        // Configuração de atualização via OTA
   setup_io_pins();    // Define pinos da GPIO como entrada e acende o led
@@ -86,25 +82,4 @@ void loop() {
   }
 
   handle_ota();
-}
-
-/**
- * @brief Envia resposta atravésda UART
- * 
- * @param code codigo de resposta
- * @param value valor da resposta
- */
-void send_response(unsigned char code, unsigned char value) {
-  Serial.write(code);
-  Serial.write(value);
-}
-
-/**
- * @brief Envia resposta de erro
- * 
- * @param specific_error_code codigo de erro específico ao 
- * procedimento que gerou o erro
- */
-void send_error(unsigned char specific_error_code) {
-  send_response(NODE_MCU_STATUS_ERROR, specific_error_code);
 }
