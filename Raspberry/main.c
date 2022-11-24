@@ -67,19 +67,6 @@ void separate_string_in_3(char *str, char a[10], char b[10], char c[10]) {
 }
 
 /**
- * @brief Escreve uma string no display
- *
- * @param s string a ser escrita no display
- */
-void write_string(char* s) {
-  for (int i = 0; i < strlen(s) && i < 16; i++) {
-    write_char(s[i]);
-  }
-}
-
-
-
-/**
  * @brief Realiza a leitura de sensores de forma automatizada atraves de comunicação serial
  * da raspberry pi
  *

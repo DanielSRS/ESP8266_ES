@@ -66,7 +66,7 @@ void serialReadBytes(unsigned char l[100])
  * @return int Valor de sucesso do envio. retorna -1 se erro
  */
 int uart_send_string(char* tx_string) {
-  if (uart0_filestream != -1)
-          return write(uart0_filestream, tx_string, strlen(tx_string));           //Filestream, bytes to write, number of bytes to write
-  return -1;
+    if (uart0_filestream != -1)
+        return write(uart0_filestream, tx_string, strlen(tx_string));           //Filestream, bytes to write, number of bytes to write
+    return -1;
 }
