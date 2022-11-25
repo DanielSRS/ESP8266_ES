@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
      * Percorre a lista de argumentos para definir os sensores
      */
     for (int index = 1; index < argc; index++) {
+        char str[6] = "\0\0\0";
         /**
          * @brief Se adicionado um sensor analogico
          */
@@ -62,12 +63,10 @@ int main(int argc, char *argv[]) {
             analogico.id = 'A';
             analogico.type = Analogic;
         }
-        char str[6] = "\0\0\0";
-        int isDigital = strcmp(getSubstring(str, argv[index], 0, 2), "-d") == 0;
         /**
          * Se inserido uma porta digital
          */
-        if (isDigital) {
+        else if (strcmp(getSubstring(str, argv[index], 0, 2), "-d") == 0) {
             //char name[10];
             if (digitalQtd >= 31) {
                 printf("Atingido maximo de sensores digitais!\n");
@@ -84,7 +83,7 @@ int main(int argc, char *argv[]) {
         /**
          * @brief Se listando os sensores disponíveis
          */
-        if (strcmp(argv[index], "-l") == 0) {
+        else if (strcmp(argv[index], "-l") == 0) {
           unsigned char read[100]; // Leitura de respostas
           //printf("\nPegando o numero de portas digitais disponíveis: \n");
           int max_digital = get_number_of_digital_ios();
@@ -97,7 +96,7 @@ int main(int argc, char *argv[]) {
         }
 
         /** Se opção manual */
-        if (strcmp(argv[index], "-m") == 0) {
+        else if (strcmp(argv[index], "-m") == 0) {
           // exibe menu
           char notice[80] = " ";
           while (1)
@@ -196,6 +195,12 @@ int main(int argc, char *argv[]) {
             } 
           }
           
+        }
+
+        // Comando inválido
+        else {
+          printf("\n\nComando inválido!!\nEncerrando...\n");
+          exit(0);
         }
 
     }
