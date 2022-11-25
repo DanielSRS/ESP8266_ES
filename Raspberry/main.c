@@ -7,6 +7,7 @@
 #include "comunication.h"     // command_to_int
 #include "utils.h"            // await
 #include "menu.h"             // menu  
+#include "help.h"
 
 
 int get_number_of_digital_ios();
@@ -195,6 +196,12 @@ int main(int argc, char *argv[]) {
             } 
           }
           
+        }
+
+        // menu de ajuda
+        else if (strcmp(argv[index], "-h") == 0) {
+          help("general");
+          exit(0);
         }
 
         // Comando inválido

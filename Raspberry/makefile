@@ -9,8 +9,8 @@ list: all
 
 all: Rasp
 
-Rasp: Rasp.o display.o serial.o comunication.o sensor.o lcd.o utils.o menu.o terminal.o
-		gcc main.o display.o serial.o comunication.o sensor.o lcd.o utils.o menu.o terminal.o -o Rasp
+Rasp: Rasp.o display.o serial.o comunication.o sensor.o lcd.o utils.o menu.o terminal.o help.o
+		gcc main.o display.o serial.o comunication.o sensor.o lcd.o utils.o menu.o terminal.o help.o -o Rasp
 
 Rasp.o: main.c
 		gcc -c main.c -o main.o
@@ -38,6 +38,9 @@ menu.o: menu.c
 
 terminal.o: terminal.c
 		gcc -c terminal.c -o terminal.o
+
+help.o: help.c
+		gcc -c help.c -o help.o
 
 clean:
 		rm -rf *.o *~ Rasp
