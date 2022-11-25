@@ -53,6 +53,7 @@ int main(int argc, char *argv[]) {
         if (strcmp(argv[index], "-analogic") == 0) {
             printf("Há um sensor na porta analogica\n");
             char *j = "Analogico";
+            analogico.name[9] = '\0';
             for (int i = 0; i < strlen(j) && i < 10; i++) {
                     //printf("%c", ptr[i]);
                     analogico.name[i] = j[i];
