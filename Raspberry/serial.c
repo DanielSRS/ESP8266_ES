@@ -82,5 +82,4 @@ void send_command(unsigned char command, unsigned char value) {
     cmd[0] = command;
     cmd[1] = value;
     uart_send_string((char*) cmd);
-    printf("\nSend command: %s - %i %i\n", (char*) cmd, command, value);
 }

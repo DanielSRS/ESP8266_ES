@@ -142,18 +142,21 @@ int main(int argc, char *argv[]) {
                 } else {
                   sprintf(notice, "Status: ERRO!");
                 }
+                clear_display();
                 write_string(notice); 
                 break;
 
               case 1:
                 send_command(NODE_MCU_ON_LED_BUILTIN, 'L');
-                sprintf(notice, "LED ligado");       
+                sprintf(notice, "LED ligado");    
+                clear_display();   
                 write_string(notice);                                            // Limpa mensagem
                 break;
 
               case 2:
                 send_command(NODE_MCU_OFF_LED_BUILTIN, 'L');
                 sprintf(notice, "LED desligado");
+                clear_display();
                 write_string(notice);                                                   // Limpa mensagem
                 break;
 
@@ -259,10 +262,10 @@ int main(int argc, char *argv[]) {
  */
 int get_number_of_digital_ios() {
   unsigned char read[100];
-  send_command('!', '!');
+  send_command(GET_NUMBER_OF_SENSORS, GET_NUMBER_OF_SENSORS);
   await(3000);
   serialReadBytes(read);
-  if (read[0] != '!' || strlen(read) < 2) {
+  if (read[0] != NUMBER_OF_DIGITAL_PORTS || strlen(read) < 2) {
     return -1;
   }
   /** Numero de portas digitais disponíveis */
