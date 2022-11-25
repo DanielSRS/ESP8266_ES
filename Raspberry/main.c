@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
             analogico.id = 'A';
             analogico.type = Analogic;
         }
-        char str[2];
+        char str[6] = "\0\0\0";
         int isDigital = strcmp(getSubstring(str, argv[index], 0, 2), "-d") == 0;
         /**
          * Se inserido uma porta digital
