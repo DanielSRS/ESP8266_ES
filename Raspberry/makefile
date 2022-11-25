@@ -15,6 +15,9 @@ Rasp: Rasp.o display.o serial.o comunication.o sensor.o lcd.o utils.o menu.o ter
 Rasp.o: main.c
 		gcc -c main.c -o main.o
 
+lcd: lcd.s
+		gcc -c lcd.s -o lcd.o
+
 mock: display.mock.c
 		gcc -c display.mock.c -o lcd.o
 
