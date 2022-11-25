@@ -25,20 +25,19 @@ int add_digital_sensor(char *sensor_info, Sensor *digital);
  */
 int main(int argc, char *argv[]) {
     // Configuração inicial
-    init_display(); // configura o display
+    init_display();                   // configura o display
     init_display();
     init_display();
-    clear_display(); // Limpa o conteudo do diaplay
+    clear_display();                  // Limpa o conteudo do diaplay
     write_string("Iniciando");
-    uart_configure(); // configura a uart
-    unsigned char ler[100]; // Leitura de respostas
+    uart_configure();                 // configura a uart
+    unsigned char ler[100];           // Leitura de respostas
 
     Sensor analogico;
     Sensor digital[31];
 
-    int digitalQtd = 0; // Quantidade de sensores digitais selecionados
-    // Se não tiver argumentos, encerra o programa
-    if (argc < 2) {
+    int digitalQtd = 0;               // Quantidade de sensores digitais selecionados
+    if (argc < 2) {                   // Se não tiver argumentos, encerra o programa
       printf("Uso inválido. Não há argumentos\n");
       return 0;
     }
@@ -139,20 +138,23 @@ int main(int argc, char *argv[]) {
                 await(3000);
                 serialReadBytes(ler); // lê resposta
                 if (ler[0] == NODE_MCU_STATUS_OK && ler[1] == NODE_MCU_STATUS_ERROR) {
-                  sprintf(notice, "Status da NodeMCU: OK");                                                   // Limpa mensagem
+                  sprintf(notice, "Status: OK");                                                   // Limpa mensagem
                 } else {
-                  sprintf(notice, "Status da NodeMCU: ERRO!");
+                  sprintf(notice, "Status: ERRO!");
                 }
+                write_string(notice); 
                 break;
 
               case 1:
                 send_command(NODE_MCU_ON_LED_BUILTIN, 'L');
-                sprintf(notice, "LED ligado");                                                   // Limpa mensagem
+                sprintf(notice, "LED ligado");       
+                write_string(notice);                                            // Limpa mensagem
                 break;
 
               case 2:
                 send_command(NODE_MCU_OFF_LED_BUILTIN, 'L');
-                sprintf(notice, "LED desligado");                                                   // Limpa mensagem
+                sprintf(notice, "LED desligado");
+                write_string(notice);                                                   // Limpa mensagem
                 break;
 
               case 3:
@@ -160,8 +162,8 @@ int main(int argc, char *argv[]) {
                 printf("Lendo sensor analogico...\n");
                 await(3000);
                 serialReadBytes(ler); // lê resposta
-                print_sensor_to_console("Analogico", command_to_int(ler[0], ler[1]));
-                sprintf(notice, "%9s: %4i", "Analogico", command_to_int(ler[0], ler[1]));
+                print_sensor_to_console("Analogico", command_to_int(ler[1], ler[2]));
+                sprintf(notice, "%9s: %4i", "Analogico", command_to_int(ler[1], ler[2]));
                 break;
               
               case 4:
@@ -174,13 +176,13 @@ int main(int argc, char *argv[]) {
                 serialReadBytes(ler);                                                   // lê resposta
 
 
-                if (ler[0] == 31) {                                                     // Se houve erro na leitura
+                if (ler[0] == NODE_MCU_STATUS_ERROR) {                                                     // Se houve erro na leitura
                   printf("NodeMCU com problema. Endereço do sensor é inválido!\n");
                   clear_display();
                   write_string("NodeMCU com erro");
                 } else {                                                                // Se lido com sucesso
-                  print_sensor_to_console("Sensor", atoi(ler));                         // Exibe informações lidas
-                  sprintf(notice, "Sensor: %i: %4i", sensor_address, atoi(ler));
+                  print_sensor_to_console("Sensor", ler[1] - '0');                         // Exibe informações lidas
+                  sprintf(notice, "Sensor: %i: %4i", sensor_address, ler[1] - '0');
                 }
                 break;
 
@@ -208,7 +210,7 @@ int main(int argc, char *argv[]) {
         send_command(GET_ANALOG_INPUT_VALUE, GET_ANALOG_INPUT_VALUE);
         await(3000);
         serialReadBytes(ler); // lê resposta
-        analogico.value = command_to_int(ler[0], ler[1]);
+        analogico.value = command_to_int(ler[1], ler[2]);
         print_sensor_to_console(analogico.name, analogico.value);
       }
 
@@ -220,12 +222,12 @@ int main(int argc, char *argv[]) {
         await(3000);                                                            // Aguarda comando ser processado
         serialReadBytes(ler);                                                   // lê resposta
 
-        if (ler[0] == 31) {                                                     // Se houve erro na leitura
+        if (ler[0] == NODE_MCU_STATUS_ERROR) {                                                     // Se houve erro na leitura
           printf("NodeMCU com problema. Endereço do sensor é inválido!\n");
           clear_display();
           write_string("NodeMCU com erro");
         } else {                                                                // Se lido com sucesso
-          digital[i].value = atoi(ler);                                         // salva o valor lido
+          digital[i].value = ler[1] - '0';                                         // salva o valor lido
           print_sensor_to_console(digital[i].name, digital[i].value);           // Exibe informações lidas
         }
       }
@@ -274,7 +276,7 @@ void print_io_name_and_id(int max_digital) {
     serialReadBytes(read);                                                // faz a leitura
 
     /** Se problema com a node, encerra a leitura*/
-    if (read[0] == 31) {                                                  // se houver erro
+    if (read[0] == NODE_MCU_STATUS_ERROR) {                                                  // se houver erro
       printf("NodeMCU com problema!!!\n\n");
       clear_display();
       write_string("NodeMCU com erro");
@@ -288,8 +290,8 @@ void print_io_name_and_id(int max_digital) {
     await(3000);                                                          // Aguarda processamento da solicitação
     serialReadBytes(read);                                                // Lê a resposta
 
-    command[0] = read[0];
-    command[1] = read[1];
+    command[0] = read[1];
+    command[1] = read[2];
 
     // exibe a informação
     printf("%10s: %2i\n", command, sensor_address);                       // Exibe os dados lidos
