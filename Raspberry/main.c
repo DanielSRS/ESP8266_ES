@@ -104,6 +104,9 @@ int main(int argc, char *argv[]) {
           {
             menu_item entries[] = {
               {
+                .item_name = "Status da NodeMCU"
+              },
+              {
                 .item_name = "Ligar o led"
               },
               {
@@ -119,7 +122,7 @@ int main(int argc, char *argv[]) {
                 .item_name = "Sair" 
               },
             };
-            int response = menu(
+            int selected_entrie_index = menu(
               entries,
               Lenght(entries),
               "Use as setas para navegar entre as opções do menu. Pressione enter para selecionar a opção",
@@ -127,19 +130,31 @@ int main(int argc, char *argv[]) {
               notice
             );
 
-            switch (response)
+            switch (selected_entrie_index)
             {
               case 0:
+                send_command(GET_NODE_MCU_STATUS, 'O');
+                printf("Obtendo status da NodeMCU...\n");
+                await(3000);
+                serialReadBytes(ler); // lê resposta
+                if (ler[0] == NODE_MCU_STATUS_OK && ler[1] == NODE_MCU_STATUS_ERROR) {
+                  sprintf(notice, "Status da NodeMCU: OK");                                                   // Limpa mensagem
+                } else {
+                  sprintf(notice, "Status da NodeMCU: ERRO!");
+                }
+                break;
+
+              case 1:
                 send_command(NODE_MCU_ON_LED_BUILTIN, 'L');
                 sprintf(notice, "LED ligado");                                                   // Limpa mensagem
                 break;
 
-              case 1:
+              case 2:
                 send_command(NODE_MCU_OFF_LED_BUILTIN, 'L');
                 sprintf(notice, "LED desligado");                                                   // Limpa mensagem
                 break;
 
-              case 2:
+              case 3:
                 send_command(GET_ANALOG_INPUT_VALUE, GET_ANALOG_INPUT_VALUE);
                 printf("Lendo sensor analogico...\n");
                 await(3000);
@@ -148,7 +163,7 @@ int main(int argc, char *argv[]) {
                 sprintf(notice, "%9s: %4i", "Analogico", command_to_int(ler[0], ler[1]));
                 break;
               
-              case 3:
+              case 4:
                 printf("Digite o endereço do sensor: ");
                 scanf("%s", ler);
                 int sensor_address = atoi(ler);
@@ -168,7 +183,7 @@ int main(int argc, char *argv[]) {
                 }
                 break;
 
-              case 4:
+              case 5:
                 exit(0);
                 break;
               
