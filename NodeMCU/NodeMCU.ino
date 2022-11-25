@@ -71,12 +71,12 @@ void loop() {
         break;
 
       case GET_NODE_MCU_STATUS: // Obter o status da placa
-        send_response(NODE_MCU_STATUS_OK, NODE_MCU_STATUS_OK);
+        send_response(NODE_MCU_STATUS_OK, NODE_MCU_STATUS_ERROR);
         break;
       
       // Comando não reconhecido
       default:
-        send_error(NODE_MCU_STATUS_OK);
+        send_error(NODE_MCU_STATUS_ERROR);
         break;
     }
   }
