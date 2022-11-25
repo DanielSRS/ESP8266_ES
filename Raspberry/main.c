@@ -104,25 +104,25 @@ int main(int argc, char *argv[]) {
           {
             menu_item entries[] = {
               {
-                .item_name = "Status da NodeMCU"
+                .item_name = "Status da NodeMCU", .id = 0
               },
               {
-                .item_name = "Ligar o led"
+                .item_name = "Ligar o led", .id = 1
               },
               {
-                .item_name = "Desligar o led" 
+                .item_name = "Desligar o led", .id = 2
               },
               {
-                .item_name = "Ler sensor analogico" 
+                .item_name = "Ler sensor analogico", .id = 3
               },
               {
-                .item_name = "Ler sensor digital" 
+                .item_name = "Ler sensor digital", .id = 4
               },
               {
-                .item_name = "Sair" 
+                .item_name = "Sair", .id = 5
               },
             };
-            int selected_entrie_index = menu(
+            int selected_entrie_id = menu(
               entries,
               Lenght(entries),
               "Use as setas para navegar entre as opções do menu. Pressione enter para selecionar a opção",
@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
               notice
             );
 
-            switch (selected_entrie_index)
+            switch (selected_entrie_id)
             {
               case 0:
                 send_command(GET_NODE_MCU_STATUS, 'O');

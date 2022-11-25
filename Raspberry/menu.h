@@ -7,6 +7,7 @@
  */
 struct item_menu {
   char * item_name;
+  int id;
 };
 
 typedef struct item_menu menu_item;

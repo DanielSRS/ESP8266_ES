@@ -40,7 +40,7 @@ void render_menu_items(menu_item items[], int items_lenght, int selected_item_in
  * @param notice_text Texto de notificação. exibido abaixo do rodape e antes
  * de uma interação. apos qualquer interação (como alterar a opção selecionada)
  * esse texto não deve ser exibido
- * @return int index da opção selecionada
+ * @return int id da opção selecionada
  */
 int menu(menu_item menu_entries[], int entries_lenght, char * header_text, char * footer_text, char * notice_text) {
   int min_index = 0;
@@ -76,7 +76,7 @@ int menu(menu_item menu_entries[], int entries_lenght, char * header_text, char 
       }
     } else if (input == 10) {                                           // se precionado enter
       disableRawMode(orig_termios);
-      return selected;                                                  // retorna a opção selecionada
+      return menu_entries[selected].id;                                                  // retorna a opção selecionada
     }
   }
 
