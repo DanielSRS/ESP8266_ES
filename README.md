@@ -21,6 +21,11 @@ Seções
    * [Rodando o projeto](#rodando-o-projeto)
     
    * [Testes Realizados](#testes-realizados)
+      * [Leitura dos sensores digitais](#leitura-dos-sensores-digitais)
+      * [Leitura do sensor analógico](#leitura-do-sensor-analógico)
+      * [Ligar e desligar o LED built-in da NodeMCU](#ligar-e-desligar-o-led-built-in-da-nodemcu)
+      * [Obtenção do status da NodeMCU](#obtenção-do-status-da-nodemcu)
+      * [Vídeo dos testes realizados da leitura dos sensores](#vídeo-dos-testes-realizados-da-leitura-dos-sensores)
 <!--te-->
 
 
@@ -144,12 +149,26 @@ Rodando o Projeto
 Testes Realizados
 =================
 Para realização dos testes foi utilizado o kit de desenvolvimento na imagem abaixo:
-![Kit de desenvolvimento utilizado](/assets/kitdev.jpg)
+![Kit de desenvolvimento utilizado](/assets/kit_desenvolvimento.jpg)
 
+Leitura dos sensores digitais
+-------------------------
+Para realização do teste dos sensores digitais foram utilizados dois botões, estes quando pressionados representaram a alteração dos valores digitais dos sensores. 
 
-Para realização dos testes dos sensores foi utilizado dois botões para simular o valor dos sensores digitais, já para simular os valores do sensor analógico foi utilizado um potenciômetro.
-Segue um vídeo abaixo com a realização dos testes.
+Leitura do sensor analógico
+---------------------------
+Para realização do teste do sensor analógico foi utilizado um potenciômetro, este representou a alteração do valor analógico, quando utilizado. Podendo ter um valor de 0 a 1024.
 
+Ligar e desligar o LED built-in da NodeMCU
+------------------------------------------
+Foi realizado o teste para ligar e desligar o LED built-in da NodeMCU. Teste esse que funcionou como esperado, isto é, o led built-in da NodeMCU  foi aceso e apagado quando requisitado por comando através da Raspberry.
+
+Obtenção do status da NodeMCU
+-----------------------------
+Foi realizado para obter o status da NodeMCU. Status estes podendo ser OK, ou seja tudo ok com a NodeMCU, ou status de ERRO, ou seja a NodeMCU apresentou algum erro no seu funcionamento.
+
+Vídeo dos testes realizados da leitura dos sensores
+===================================================
 
 ## Autores
 
