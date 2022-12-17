@@ -2,7 +2,7 @@
 
 ![GitHub Org's stars](https://img.shields.io/github/stars/DanielSRS?style=social)
 
-Foi proposto o desenvolvimento de um Sistema de Sensoriamento Genérico para um processador da arquitetura ARMV6L. O sistema deveria ser capaz de controlar o acionamento de um conjunto variável de sensores e monitorar seu funcionamento de forma automatizada. Para isso, o sistema contou com dois microcontroladores, uma Raspberry Pi Zero W, que desempenhou o papel de SBC (Single Board Computer) e uma NodeMCU ESP8266, estes deveriam comunicar-se através do protocolo UART(Universal Asynchronous Receiver Transmitter). Donde, o NodeMCU deveria ser responsável por obter e retornar os valores dos sensores, quando estes fossem requisitados via comunicação serial pela Raspberry. Além disso, o sistema deveria servir para a criação de um ecossistema de internet das coisas (IOT).
+Foi proposto o desenvolvimento de um Sistema de Sensoriamento Genérico para um processador da arquitetura ARMV6L. O sistema deveria ser capaz de controlar o acionamento de um conjunto variável de sensores e monitorar seu funcionamento de forma automatizada. Para isso, o sistema contou com dois microcontroladores, uma Raspberry Pi Zero W, que desempenhou o papel de SBC (Single Board Computer) e uma NodeMCU ESP8266, estes deveriam comunicar-se através do protocolo UART(Universal Asynchronous Receiver Transmitter). Donde, a NodeMCU deveria ser responsável por obter e retornar os valores dos sensores, quando estes fossem requisitados via comunicação serial pela Raspberry. Além disso, o sistema deveria servir para a criação de um ecossistema de internet das coisas (IOT).
 
 Seções
 =================
@@ -96,10 +96,10 @@ Desenvolvimento do projeto
 
 
 Raspberry
---------
+---------
 
 Esp8266
---------
+-------
 
 Ferramentas Utilizadas
 ======================
@@ -169,6 +169,9 @@ Foi realizado para obter o status da NodeMCU. Status estes podendo ser OK, ou se
 
 Vídeo dos testes realizados da leitura dos sensores
 ===================================================
+https://user-images.githubusercontent.com/88436328/208267483-5b4e35fe-75b3-4232-baff-982cb9c1761f.mp4
+
+
 
 ## Autores
 
