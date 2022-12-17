@@ -2,7 +2,7 @@
 
 ![GitHub Org's stars](https://img.shields.io/github/stars/DanielSRS?style=social)
 
-Foi proposto o desenvolvimento de um Sistema de Sensoriamento Genérico para um processador ARMV6L. O sistema deveria ser capaz de controlar o acionamento de um conjunto variável de sensores e monitorar seu funcionamento de forma automatizada. Para isso, o sistema contou com dois microcontroladores, uma Raspberry Pi Zero W, que desempenhou o papel de SBC (Single Board Computer) e uma NodeMCU ESP8266, estes deveriam comunicar através do protocolo UART(Universal Asynchronous Receiver Transmitter). Donde, o NodeMCU deveria ser responsável por obter e retornar os valores dos sensores, quando estes fossem requisitados via comunicação serial pela Raspberry. Além disso,  o sistema deveria servir para a criação de um ecossistema de internet das coisas (IOT).
+Foi proposto o desenvolvimento de um Sistema de Sensoriamento Genérico para um processador da arquitetura ARMV6L. O sistema deveria ser capaz de controlar o acionamento de um conjunto variável de sensores e monitorar seu funcionamento de forma automatizada. Para isso, o sistema contou com dois microcontroladores, uma Raspberry Pi Zero W, que desempenhou o papel de SBC (Single Board Computer) e uma NodeMCU ESP8266, estes deveriam comunicar-se através do protocolo UART(Universal Asynchronous Receiver Transmitter). Donde, o NodeMCU deveria ser responsável por obter e retornar os valores dos sensores, quando estes fossem requisitados via comunicação serial pela Raspberry. Além disso, o sistema deveria servir para a criação de um ecossistema de internet das coisas (IOT).
 
 Seções
 =================
@@ -36,7 +36,7 @@ Diagrama do projeto
 Comunicação UART
 ================
 O protocolo de comunicação serial adotado foi o UART (Universal Asynchronous Receiver/Transmitter ou Receptor/Transmissor Assíncrono Universal), que define um conjunto de regras para a troca de dados seriais entre dois dispositivos. A comunicação utiliza dois fios conectados entre o transmissor e o receptor para transmitir e receber informações entre ambas as direções.
-Uma vantagem do UART é que ele é assíncrono, de forma que o transmissor e o receptor não precisam compartilhar um sinal de clock comum, com isso, ambas as extremidades devem transmitir ao mesmo tempo e em velocidade predefinida para poder ter a mesma temporização de bits, essa taxa é denominada taxa de baud. A taxa de baud utilizada no projeto foi 115200. Além de ter a mesma taxa de bauds, ambos os lados de uma conexão UART também têm que usar a mesma estrutura de frames e parâmetros.
+Uma vantagem do UART é que ele é assíncrono, de forma que o transmissor e o receptor não precisam compartilhar um sinal de clock comum, com isso, ambas as extremidades devem transmitir ao mesmo tempo e em velocidade predefinida para poder ter a mesma temporização de bits, essa taxa é denominada taxa de baud, ou seja, taxa de transmissão de dados. A taxa de baud utilizada no projeto foi 115200. Além de ter a mesma taxa de bauds, ambos os lados de uma conexão UART também têm que usar a mesma estrutura de frames e parâmetros.
 A estrutura de frames da UART consiste em um bit inicial, um bit final, um bit de paridade e bits de dados. O bit inicial define o início da comunicação através da mudança de estado do sinal lógico, ele é seguido dos bits de dados, que nessa solução são 8 bits (1 byte), seguido do bit final, que determina a finalização da comunicação. O bit de paridade é enviando antes do bit final, servindo para determinar se existem erros nos dados transmitidos.
 
 
@@ -132,7 +132,7 @@ Rodando o Projeto
 ```
   ./arquivo
 ```
-#### Buildar Makefile
+#### Processo de build do Makefile
 
 ```
   cd src/
