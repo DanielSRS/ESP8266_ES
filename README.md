@@ -2,13 +2,20 @@
 
 ![GitHub Org's stars](https://img.shields.io/github/stars/DanielSRS?style=social)
 
-O problema propõe desenvolver um Sistema de Sensoriamento Genérico para um processador ARMV6L. Esse sistema deve servir para a criação de um ecossistema de internet das coisas (IOT). O sistema será capaz de controlar o acionamento de um conjunto váriavel de sensores e monitorar seu funcionamento de forma automatizada.
-Para isso, o sistema conta com dois microcontroladores, uma Raspberry Pi Zero W e uma ESP8266, estes se comunicam através do protocolo UART(Universal Asynchronous Receiver Transmitter). Donde o NodeMCU é responsável por obter e retornar os valores dos sensores, quando requisitados via comunicação serial pela Raspberry.
+O problema propõe desenvolver um Sistema de Sensoriamento Genérico para um processador ARMV6L. Esse sistema deve servir para a criação de um ecossistema de internet das coisas (IOT). O sistema será capaz de controlar o acionamento de um conjunto variável de sensores e monitorar seu funcionamento de forma automatizada. Para isso, o sistema conta com dois microcontroladores, uma Raspberry Pi Zero W e uma ESP8266, estes se comunicam através do protocolo UART(Universal Asynchronous Receiver Transmitter). Donde o NodeMCU é responsável por obter e retornar os valores dos sensores, quando requisitados via comunicação serial pela Raspberry.
 
+## Seções
+&nbsp;&nbsp;&nbsp;[**1.** Diagrama do projeto](#secao1)
+
+&nbsp;&nbsp;&nbsp;[**2.** Comunicação UART](#secao2)
+
+&nbsp;&nbsp;&nbsp;[**3.** Comunicação entre os dispositivos](#secao3)
+
+<a id="secao1"></a>
 ## :bookmark_tabs: Diagrama do projeto
 ![diagram](/assets/digram_system.png)
 
-
+<a id="secao2"></a>
 ## Comunicação UART
 O protocolo de comunicação utilizado é o UART (Universal Asynchronous Receiver/Transmitter ou Receptor/Transmissor Assíncrono Universal), que define um conjunto de regras para a troca de dados seriais entre dois dispositivos. A comunicação utiliza dois fios conectados entre o transmissor e o receptor para transmitir e receber informações entre ambas as direções.
 
@@ -16,13 +23,30 @@ Uma vantagem do UART é que ele é assíncrono, de forma que o transmissor e o r
 
 A estrutura de frames da UART consiste em um bit inicial, um bit final, um bit de paridade e bits de dados. O bit inicial define o início da comunicação através da mudança de estado do sinal lógico, ele é seguido dos bits de dados, que nessa solução são 8 bits (1 byte), seguido do bit final, que determina a finalização da comunicação. O bit de paridade é enviando antes do bit final, servindo para determinar se existem erros nos dados transmitidos.
 
-
+<a id="secao3"></a>
 ## Comunicação entre os dispositivos
 A Raspberry é responsável por iniciar a comunicação via serial, enviando comandos para o NodeMCU, este irá enviar os dados de resposta de acordo com o comando de requisição. Os comandos de requisição e resposta estão na imagem abaixo.
 
 ![Tabelas de comandos](/assets/Screenshot%20from%202022-11-18%2009-49-08.png)
 
-Os dados de resposta enviados pelo NodeMCU serão exibidos em um display LCD 16x2.
+Os dados de resposta enviados pelo NodeMCU foram exibidos em um display LCD 16x2.
+
+## :hammer: Ferramentas Utilizadas
+
+Para o processo de desenvolvimento do sistema foram utilizadas as seguintes ferramentas:
+
+#### [Visual Studio Code](https://code.visualstudio.com/) 
+O Visual Studio Code é um editor de texto conhecido por ser um editor de código aberto muito intuitivo. Além disso, ele também é muito popular por ser multiplataforma e estar disponível para os principais sistemas operacionais, que são Linux, Mac e Windows.
+
+#### [Arduino IDE](https://www.arduino.cc/en/software)
+É uma plataforma eletrônica de código aberto baseada em hardware e software fáceis de usar. Nesta plataforma é possível realizar o envio do código desenvolvido na linguagem C, para a NodeMCU esp8266 através da comunicação sem fio usando a biblioteca  Arduino OTA.
+
+#### [GNU Makefile](https://www.gnu.org/software/make/manual/make.html)
+O programa GNU make determina quais partes de um grande programa devem ser compiladas ou recompiladas. Além disso, ele executa os programas necessários para fazer essas tarefas. Para orientar o programa make é necessário um arquivo Makefile que dita todas as regras de compilação GNU.
+
+#### [GDB](https://www.onlinegdb.com/)
+É o depurador de nível de fonte GNU que é padrão em sistemas linux (e muitos outros unix). O propósito de um depurador como o GDB é permitir ver o que está acontecendo “dentro” de outro programa enquanto ele é executado, ou o que outro programa estava fazendo no momento em que travou. Ele pode ser usado tanto para programas escritos em linguagens de alto nível como C e C++ quanto para programas de código assembly.
+
 
 ## :hammer: Compilar e executar 
 
@@ -51,47 +75,35 @@ Os dados de resposta enviados pelo NodeMCU serão exibidos em um display LCD 16x
   make run
 ```
 
-## :heavy_check_mark: Softwares Utilizados
-
-- Linux
-
-- Nano
-
-- Visual Studio Code
-
-- GCC (GNU Compiler Collection)
-
-- Git
-
-- Arduino IDE
-
 ## :computer: Arquitetura do Computador
 
-Sistema Operacional: Raspbian
+- Sistema Operacional: Raspbian
 
-Arquitetura:  ARMV6L
+- Arquitetura:  ARMV6L
 
-Ordem de armazenamento de byte: Little Endian (menor para o MSB)
+- Ordem de armazenamento de byte: Little Endian (menor para o MSB)
 
-CPU: 1
+- CPU: 1
 
-VID: ARM
+- Memórioa: 512MB de memória LPDDR2 SDRAM;
 
-Modelo: 7
+- VID: ARM
+
+- Modelo: 7
+
 
 Nome do Modelo: ARM1176
 
 
 ## :pencil: Informações do NodeMCU
 
-NodeMCU ESP8266 V3 CH340
+- NodeMCU ESP8266 V3 CH340
 
-Programação via Lua
+- Programação via Lua
 
-11 pinos de I/O e conversor analógico/digital
+- 13 pinos GPIO, 10 canais PWM, I2C, SPI, ADC, UART e 1-Wire.
 
-5 conexões TCP/IP
-
+- 5 conexões TCP/IP
 
 ## Testes
 
