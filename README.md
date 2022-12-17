@@ -26,6 +26,8 @@ Seções
       * [Ligar e desligar o LED built-in da NodeMCU](#ligar-e-desligar-o-led-built-in-da-nodemcu)
       * [Obtenção do status da NodeMCU](#obtenção-do-status-da-nodemcu)
       * [Vídeo dos testes realizados da leitura dos sensores](#vídeo-dos-testes-realizados-da-leitura-dos-sensores)
+   * [Autores](#autores)
+   * [Materiais de referência](#materiais-de-referência)
 <!--te-->
 
 
@@ -179,13 +181,15 @@ https://user-images.githubusercontent.com/88436328/208267483-5b4e35fe-75b3-4232-
 
 
 
-## Autores
-
+Autores
+=======
 | [<img src="https://avatars.githubusercontent.com/u/38389307?v=4" width=115><br><sub>Alexandre Silva Caribé</sub>](https://github.com/AlexandreCaribe) |  [<img src="https://avatars.githubusercontent.com/u/39845798?v=4" width=115><br><sub>Daniel Santa Rosa Santos</sub>](https://github.com/DanielSRS) |  [<img src="https://avatars.githubusercontent.com/u/88436328?v=4" width=115><br><sub>Joanderson Santos</sub>](https://github.com/Joanderson90) |
 | :---: | :---: | :---: |
 
 
-## Materiais de referência
+Materiais de referência
+=======================
+
 [Raspberry Pi Documentation](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#raspberry-pi-zero-w)
 
 [Display LCD HD44780U](https://www.google.com/url?sa=t&source=web&rct=j&url=https://www.sparkfun.com/datasheets/LCD/HD44780.pdf&ved=2ahUKEwjso46tlqn6AhVGL7kGHSe6BMEQFnoECGIQAQ&usg=AOvVaw076YT-P88DM3oFFvTDUv43)
