@@ -2,7 +2,7 @@
 
 ![GitHub Org's stars](https://img.shields.io/github/stars/DanielSRS?style=social)
 
-O problema propõe desenvolver um Sistema de Sensoriamento Genérico para um processador ARMV6L. Esse sistema deve servir para a criação de um ecossistema de internet das coisas (IOT). O sistema será capaz de controlar o acionamento de um conjunto variável de sensores e monitorar seu funcionamento de forma automatizada. Para isso, o sistema conta com dois microcontroladores, uma Raspberry Pi Zero W e uma ESP8266, estes se comunicam através do protocolo UART(Universal Asynchronous Receiver Transmitter). Donde o NodeMCU é responsável por obter e retornar os valores dos sensores, quando requisitados via comunicação serial pela Raspberry.
+Foi proposto o desenvolvimento de um Sistema de Sensoriamento Genérico para um processador ARMV6L. O sistema deveria ser capaz de controlar o acionamento de um conjunto variável de sensores e monitorar seu funcionamento de forma automatizada. Para isso, o sistema contou com dois microcontroladores, uma Raspberry Pi Zero W, que desempenhou o papel de SBC (Single Board Computer) e uma NodeMCU ESP8266, estes deveriam comunicar através do protocolo UART(Universal Asynchronous Receiver Transmitter). Donde, o NodeMCU deveria ser responsável por obter e retornar os valores dos sensores, quando estes fossem requisitados via comunicação serial pela Raspberry. Além disso,  o sistema deveria servir para a criação de um ecossistema de internet das coisas (IOT).
 
 Seções
 =================
@@ -14,7 +14,13 @@ Seções
    * [Microcontroladores Utilizados](#microcontroladores-utilizados)
       * [Raspberry Pi Zero W](#raspberry-pi-zero-w)
       * [NodeMCU Esp8266](#nodemcu-esp8266)
-   * [Tests](#tests)
+   * [Desenvolvimento do projeto](#desenvolvimento-do-projeto)
+      * [Raspberry](#raspberry)
+      * [Esp8266](#esp8266)
+   * [Ferramentas Utilizadas](#ferramentas-utilizadas)
+   * [Rodando o projeto](#rodando-o-projeto)
+    
+   * [Testes Realizados](#testes-realizados)
 <!--te-->
 
 
@@ -24,15 +30,15 @@ Diagrama do projeto
 
 Comunicação UART
 ================
-O protocolo de comunicação utilizado é o UART (Universal Asynchronous Receiver/Transmitter ou Receptor/Transmissor Assíncrono Universal), que define um conjunto de regras para a troca de dados seriais entre dois dispositivos. A comunicação utiliza dois fios conectados entre o transmissor e o receptor para transmitir e receber informações entre ambas as direções.
-
+O protocolo de comunicação serial adotado foi o UART (Universal Asynchronous Receiver/Transmitter ou Receptor/Transmissor Assíncrono Universal), que define um conjunto de regras para a troca de dados seriais entre dois dispositivos. A comunicação utiliza dois fios conectados entre o transmissor e o receptor para transmitir e receber informações entre ambas as direções.
 Uma vantagem do UART é que ele é assíncrono, de forma que o transmissor e o receptor não precisam compartilhar um sinal de clock comum, com isso, ambas as extremidades devem transmitir ao mesmo tempo e em velocidade predefinida para poder ter a mesma temporização de bits, essa taxa é denominada taxa de baud. A taxa de baud utilizada no projeto foi 115200. Além de ter a mesma taxa de bauds, ambos os lados de uma conexão UART também têm que usar a mesma estrutura de frames e parâmetros.
-
 A estrutura de frames da UART consiste em um bit inicial, um bit final, um bit de paridade e bits de dados. O bit inicial define o início da comunicação através da mudança de estado do sinal lógico, ele é seguido dos bits de dados, que nessa solução são 8 bits (1 byte), seguido do bit final, que determina a finalização da comunicação. O bit de paridade é enviando antes do bit final, servindo para determinar se existem erros nos dados transmitidos.
+
+
 
 Comunicação entre os dispositivos
 =================================
-A Raspberry é responsável por iniciar a comunicação via serial, enviando comandos para o NodeMCU, este irá enviar os dados de resposta de acordo com o comando de requisição. Os comandos de requisição e resposta estão na imagem abaixo.
+A Raspberry foi responsável por iniciar a comunicação via serial, enviando comandos para a NodeMCU, esta deveria enviar os dados de resposta de acordo com o comando de requisição. Os comandos de requisição e resposta estão na imagem abaixo.
 
 ![Tabelas de comandos](/assets/Screenshot%20from%202022-11-18%2009-49-08.png)
 
@@ -79,7 +85,19 @@ NodeMCU Esp8266
 
 - 5 conexões TCP/IP
 
-## :hammer: Ferramentas Utilizadas
+
+Desenvolvimento do projeto
+=============================
+
+
+Raspberry
+--------
+
+Esp8266
+--------
+
+Ferramentas Utilizadas
+======================
 
 Para o processo de desenvolvimento do sistema foram utilizadas as seguintes ferramentas:
 
@@ -95,8 +113,8 @@ O programa GNU make determina quais partes de um grande programa devem ser compi
 #### [GDB](https://www.onlinegdb.com/)
 É o depurador de nível de fonte GNU que é padrão em sistemas linux (e muitos outros unix). O propósito de um depurador como o GDB é permitir ver o que está acontecendo “dentro” de outro programa enquanto ele é executado, ou o que outro programa estava fazendo no momento em que travou. Ele pode ser usado tanto para programas escritos em linguagens de alto nível como C e C++ quanto para programas de código assembly.
 
-
-## :hammer: Compilar e executar 
+Rodando o Projeto
+=================
 
 #### Compilar código C
 
@@ -123,37 +141,15 @@ O programa GNU make determina quais partes de um grande programa devem ser compi
   make run
 ```
 
-## :computer: Arquitetura do Computador
-
-- Sistema Operacional: Raspbian
-
-- Arquitetura:  ARMV6L
-
-- Ordem de armazenamento de byte: Little Endian (menor para o MSB)
-
-- CPU: 1
-
-- Memórioa: 512MB de memória LPDDR2 SDRAM;
-
-- VID: ARM
-
-- Modelo: 7
+Testes Realizados
+=================
+Para realização dos testes foi utilizado o kit de desenvolvimento na imagem abaixo:
+![Kit de desenvolvimento utilizado](/assets/kitdev.jpg)
 
 
-Nome do Modelo: ARM1176
+Para realização dos testes dos sensores foi utilizado dois botões para simular o valor dos sensores digitais, já para simular os valores do sensor analógico foi utilizado um potenciômetro.
+Segue um vídeo abaixo com a realização dos testes.
 
-
-## :pencil: Informações do NodeMCU
-
-- NodeMCU ESP8266 V3 CH340
-
-- Programação via Lua
-
-- 13 pinos GPIO, 10 canais PWM, I2C, SPI, ADC, UART e 1-Wire.
-
-- 5 conexões TCP/IP
-
-## Testes
 
 ## Autores
 
