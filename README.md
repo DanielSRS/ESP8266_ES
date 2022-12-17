@@ -46,7 +46,7 @@ A Raspberry foi responsável por iniciar a comunicação serial, enviando comand
 
 ![Tabelas de comandos](/assets/Screenshot%20from%202022-11-18%2009-49-08.png)
 
-Os dados de resposta enviados pelo NodeMCU foram exibidos em um display LCD 16x2.
+Os dados de resposta enviados pela NodeMCU foram exibidos em um display LCD 16x2.
 
 Microcontroladores Utilizados
 =============================
@@ -173,7 +173,7 @@ Foi realizado o teste para ligar e desligar o LED built-in da NodeMCU. Teste ess
 
 Obtenção do status da NodeMCU
 -----------------------------
-Foi realizado para obter o status da NodeMCU. Status estes podendo ser OK, ou seja tudo ok com a NodeMCU, ou status de ERRO, ou seja a NodeMCU apresentou algum erro no seu funcionamento.
+Foi realizado para obter o status da NodeMCU. Status este podendo ser OK, ou seja tudo ok com a NodeMCU, ou status de ERRO, ou seja a NodeMCU apresentou algum erro no seu funcionamento.
 
 Vídeo dos testes realizados da leitura dos sensores
 ===================================================
