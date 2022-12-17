@@ -12,7 +12,7 @@ Seções
    * [Comunicação UART](#comunicação-uart)
    * [Comunicação entre os dispositivos](#comunicação-entre-os-dispositivos)
    * [Microcontroladores Utilizados](#microcontroladores-utilizados)
-      * [Raspberry Pi Zero](#raspberry-pi-zero)
+      * [Raspberry Pi Zero W](#raspberry-pi-zero-w)
       * [NodeMCU Esp8266](#nodemcu-esp8266)
    * [Tests](#tests)
 <!--te-->
@@ -41,13 +41,43 @@ Os dados de resposta enviados pelo NodeMCU foram exibidos em um display LCD 16x2
 Microcontroladores Utilizados
 =============================
 
-Raspberry Pi Zero
+Raspberry Pi Zero W
 -----------------
+![Raspberry Pi Zero W](/assets/raspberry.jpg)
+
+## :computer: Detalhes da arquitetura
+
+- Sistema Operacional: Raspbian
+
+- Arquitetura:  ARMV6L
+
+- Ordem de armazenamento de byte: Little Endian (menor para o MSB)
+
+- Processador single-core de 1 GHz
+
+- GPIO 40-Pinos
+
+- Memórioa: 512MB de memória LPDDR2 SDRAM;
+
+- VID: ARM
+
+- Modelo: 7
+
+- Nome do Modelo: ARM1176
 
 NodeMCU Esp8266
 -----------------
+![Raspberry Pi Zero W](/assets/node-mcu-esp8266.jpg)
 
+## :computer: Detalhes da arquitetura
 
+- NodeMCU ESP8266 V3 CH340
+
+- Programação via Lua
+
+- 13 pinos GPIO, 10 canais PWM, I2C, SPI, ADC, UART e 1-Wire.
+
+- 5 conexões TCP/IP
 
 ## :hammer: Ferramentas Utilizadas
 
