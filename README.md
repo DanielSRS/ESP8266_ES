@@ -35,15 +35,12 @@ Diagrama do projeto
 
 Comunicação UART
 ================
-O protocolo de comunicação serial adotado foi o UART (Universal Asynchronous Receiver/Transmitter ou Receptor/Transmissor Assíncrono Universal), que define um conjunto de regras para a troca de dados seriais entre dois dispositivos. A comunicação utiliza dois fios conectados entre o transmissor e o receptor para transmitir e receber informações entre ambas as direções.
-Uma vantagem do UART é que ele é assíncrono, de forma que o transmissor e o receptor não precisam compartilhar um sinal de clock comum, com isso, ambas as extremidades devem transmitir ao mesmo tempo e em velocidade predefinida para poder ter a mesma temporização de bits, essa taxa é denominada taxa de baud, ou seja, taxa de transmissão de dados. A taxa de baud utilizada no projeto foi 115200. Além de ter a mesma taxa de bauds, ambos os lados de uma conexão UART também têm que usar a mesma estrutura de frames e parâmetros.
-A estrutura de frames da UART consiste em um bit inicial, um bit final, um bit de paridade e bits de dados. O bit inicial define o início da comunicação através da mudança de estado do sinal lógico, ele é seguido dos bits de dados, que nessa solução são 8 bits (1 byte), seguido do bit final, que determina a finalização da comunicação. O bit de paridade é enviando antes do bit final, servindo para determinar se existem erros nos dados transmitidos.
-
+O protocolo de comunicação serial adotado foi o UART (Universal Asynchronous Receiver/Transmitter ou Receptor/Transmissor Assíncrono Universal), que define um conjunto de regras para a troca de dados seriais entre dois dispositivos. A comunicação utiliza dois fios conectados entre o transmissor e o receptor para transmitir e receber informações entre ambas as direções. Uma vantagem do UART é que ele é assíncrono, de forma que o transmissor e o receptor não precisam compartilhar um sinal de clock comum, com isso, ambas as extremidades devem transmitir ao mesmo tempo e em velocidade predefinida para poder ter a mesma temporização de bits, essa taxa é denominada taxa de baud, ou seja, taxa de transmissão de dados. A taxa de baud utilizada no projeto foi 115200. Além de ter a mesma taxa de bauds, ambos os lados de uma conexão UART também têm que usar a mesma estrutura de frames e parâmetros. A estrutura de frames da UART consiste em um bit inicial, um bit final, um bit de paridade e bits de dados. O bit inicial define o início da comunicação através da mudança de estado do sinal lógico, ele é seguido dos bits de dados, que nesta solução são 8 bits (1 byte), seguido do bit final, que determina a finalização da comunicação. O bit de paridade é enviado antes do bit final, servindo para determinar se existem erros nos dados transmitidos.
 
 
 Comunicação entre os dispositivos
 =================================
-A Raspberry foi responsável por iniciar a comunicação via serial, enviando comandos para a NodeMCU, esta deveria enviar os dados de resposta de acordo com o comando de requisição. Os comandos de requisição e resposta estão na imagem abaixo.
+A Raspberry foi responsável por iniciar a comunicação serial, enviando comandos para a NodeMCU, esta deveria enviar os dados de resposta de acordo com o comando de requisição. Os comandos de requisição e resposta estão na imagem abaixo.
 
 ![Tabelas de comandos](/assets/Screenshot%20from%202022-11-18%2009-49-08.png)
 
@@ -97,6 +94,15 @@ Desenvolvimento do projeto
 
 Raspberry
 ---------
+O script de desenvolvimento da Rapsberry está localizado no arquivo [main.c](/Raspberry/main.c).
+Como dito nas seções anteriores a Rapsberry foi responsável por iniciar a comunicação serial, além de exibir as informações recebidas pela NodeMCU em um display lcd.
+Para a utilização do protocolo uart na Rapsberry foi utilizada a biblioteca [Termios (termios.h)](https://pubs.opengroup.org/onlinepubs/7908799/xsh/termios.h.html), esta define a interface de E/S da placa, trabalhando com arquivos do sistema operacional para efetuar a comunicação UART pelos pinos Tx e Rx. 
+Portanto, essa biblioteca foi utilizada para configurar, enviar e receber mensagens através do protocolo UART.
+
+
+## Decisões de projeto
+- Velocidade de comuniação serial (Baud Rate) adotada = 115200bps
+
 
 Esp8266
 -------
