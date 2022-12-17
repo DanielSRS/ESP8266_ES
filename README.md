@@ -4,32 +4,50 @@
 
 O problema propõe desenvolver um Sistema de Sensoriamento Genérico para um processador ARMV6L. Esse sistema deve servir para a criação de um ecossistema de internet das coisas (IOT). O sistema será capaz de controlar o acionamento de um conjunto variável de sensores e monitorar seu funcionamento de forma automatizada. Para isso, o sistema conta com dois microcontroladores, uma Raspberry Pi Zero W e uma ESP8266, estes se comunicam através do protocolo UART(Universal Asynchronous Receiver Transmitter). Donde o NodeMCU é responsável por obter e retornar os valores dos sensores, quando requisitados via comunicação serial pela Raspberry.
 
-## Seções
-&nbsp;&nbsp;&nbsp;[**1.** Diagrama do projeto](#secao1)
+Seções
+=================
 
-&nbsp;&nbsp;&nbsp;[**2.** Comunicação UART](#secao2)
+<!--ts-->
+   * [Diagrama do projeto](#diagrama-do-projeto)
+   * [Comunicação UART](#comunicação-uart)
+   * [Comunicação entre os dispositivos](#comunicação-entre-os-dispositivos)
+   * [Microcontroladores Utilizados](#microcontroladores-utilizados)
+      * [Raspberry Pi Zero](#raspberry-pi-zero)
+      * [NodeMCU Esp8266](#nodemcu-esp8266)
+   * [Tests](#tests)
+<!--te-->
 
-&nbsp;&nbsp;&nbsp;[**3.** Comunicação entre os dispositivos](#secao3)
 
-<a id="secao1"></a>
-## :bookmark_tabs: Diagrama do projeto
+Diagrama do projeto
+===================
 ![diagram](/assets/digram_system.png)
 
-<a id="secao2"></a>
-## Comunicação UART
+Comunicação UART
+================
 O protocolo de comunicação utilizado é o UART (Universal Asynchronous Receiver/Transmitter ou Receptor/Transmissor Assíncrono Universal), que define um conjunto de regras para a troca de dados seriais entre dois dispositivos. A comunicação utiliza dois fios conectados entre o transmissor e o receptor para transmitir e receber informações entre ambas as direções.
 
 Uma vantagem do UART é que ele é assíncrono, de forma que o transmissor e o receptor não precisam compartilhar um sinal de clock comum, com isso, ambas as extremidades devem transmitir ao mesmo tempo e em velocidade predefinida para poder ter a mesma temporização de bits, essa taxa é denominada taxa de baud. A taxa de baud utilizada no projeto foi 115200. Além de ter a mesma taxa de bauds, ambos os lados de uma conexão UART também têm que usar a mesma estrutura de frames e parâmetros.
 
 A estrutura de frames da UART consiste em um bit inicial, um bit final, um bit de paridade e bits de dados. O bit inicial define o início da comunicação através da mudança de estado do sinal lógico, ele é seguido dos bits de dados, que nessa solução são 8 bits (1 byte), seguido do bit final, que determina a finalização da comunicação. O bit de paridade é enviando antes do bit final, servindo para determinar se existem erros nos dados transmitidos.
 
-<a id="secao3"></a>
-## Comunicação entre os dispositivos
+Comunicação entre os dispositivos
+=================================
 A Raspberry é responsável por iniciar a comunicação via serial, enviando comandos para o NodeMCU, este irá enviar os dados de resposta de acordo com o comando de requisição. Os comandos de requisição e resposta estão na imagem abaixo.
 
 ![Tabelas de comandos](/assets/Screenshot%20from%202022-11-18%2009-49-08.png)
 
 Os dados de resposta enviados pelo NodeMCU foram exibidos em um display LCD 16x2.
+
+Microcontroladores Utilizados
+=============================
+
+Raspberry Pi Zero
+-----------------
+
+NodeMCU Esp8266
+-----------------
+
+
 
 ## :hammer: Ferramentas Utilizadas
 
