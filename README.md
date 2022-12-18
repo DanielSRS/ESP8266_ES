@@ -103,11 +103,6 @@ Portanto, essa biblioteca foi utilizada para configurar, enviar e receber mensag
 
 Também se utilizou de bibliotecas para manipulação de cadeia de caracteres como a [String (string.h)](https://pubs.opengroup.org/onlinepubs/7908799/xsh/string.h.html), de funções de entrada e saída como a [Stdio (stdio.h)](https://pubs.opengroup.org/onlinepubs/7908799/xsh/stdio.h.html) e a [Fcntl (fcntl.h)](https://pubs.opengroup.org/onlinepubs/7908799/xsh/fcntl.h.html), de conversões de funções e constantes básicas como a [Stdlib (stdlib.h)](https://pubs.opengroup.org/onlinepubs/7908799/xsh/stdlib.h.html) e de definições de constantes e titulos simbólicos como a [Unistd (unistd.h)](https://pubs.opengroup.org/onlinepubs/7908799/xsh/unistd.h.html)
 
-
-## Decisões de projeto
-- Velocidade de comuniação serial (Baud Rate) adotada = 115200bps
-
-
 ESP8266
 -------
 Para fazer a conexão da ESP8266 foi necessário se utilizar da conexão OTA (Over The Air) que se refere a uma forma de atualização de software sem fio e de forma remota, essa conexão exigiu o uso de bibliotecas de conexão Wi-Fi como a [ESP8266WiFi (ESP8266WiFi.h)](https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/readme.html) e a [ArduinoOTA (ArduinoOTA.h)](https://github.com/JAndrassy/ArduinoOTA) que é a biblioteca construida para o Arduino e dispositivos similires IOT para fazer essa conexão OTA, também se utilzou da [ESP8266mDNS (ESP8266mDNS.h)](https://github.com/arduino/esp8266/blob/master/libraries/ESP8266mDNS/ESP8266mDNS.h) que facilita o trabalho com endereços IP e dá suporte a DNS Multicast/mDNS, a [WiFiUdp (WiFiUdp.h)](https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WiFi/src/WiFiUdp.h) que nos permite de forma rápida e descomplicada, o envio de informações através da rede pelo protocolo UDP.
